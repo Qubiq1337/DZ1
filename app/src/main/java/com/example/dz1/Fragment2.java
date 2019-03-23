@@ -11,9 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class Fragment2 extends Fragment {
 
+    final static String listKey = "LIST_KEY";
     final static String indexKey = "INDEX";
+    ArrayList<String> strings;
 
     @Nullable
     @Override
@@ -21,7 +25,6 @@ public class Fragment2 extends Fragment {
         View rootView =
                 inflater.inflate(R.layout.fragment2, container, false);
         Bundle bundle = getArguments();
-        super.onCreate(savedInstanceState);
         int index = bundle.getInt(indexKey) + 1;
         final TextView view = rootView.findViewById(R.id.fragment2_text);
         view.setText(String.valueOf(index));
@@ -32,15 +35,5 @@ public class Fragment2 extends Fragment {
         }
         return rootView;
 
-    }
-
-    @Override
-    public void onDestroy() {
-        Fragment1 fragment1 = new Fragment1();
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, fragment1);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-        super.onDestroy();
     }
 }

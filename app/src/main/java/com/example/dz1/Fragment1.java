@@ -110,6 +110,7 @@ public class Fragment1 extends Fragment {
                     Fragment2 fragment2 = new Fragment2();
                     Bundle bundle = new Bundle();
                     bundle.putInt(indexKey, i);
+                    bundle.putStringArrayList(listKey, strings);
                     fragment2.setArguments(bundle);
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.container, fragment2);
