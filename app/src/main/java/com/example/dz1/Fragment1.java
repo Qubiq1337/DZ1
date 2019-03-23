@@ -28,16 +28,7 @@ public class Fragment1 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View rootView =
                 inflater.inflate(R.layout.fragment1, container, false);
-
-        super.onCreate(savedInstanceState);
-        strings = new ArrayList<>();
-
-        if (savedInstanceState == null) {
-            fillList(strings);
-        } else {
-            strings = savedInstanceState.getStringArrayList(listKey);
-        }
-
+        
         final GridLayoutManager layout;
         final RecyclerView recyclerView = rootView.findViewById(R.id.my_list);
         int orientation = getResources().getConfiguration().orientation;
@@ -67,6 +58,17 @@ public class Fragment1 extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        strings = new ArrayList<>();
+
+        if (savedInstanceState == null) {
+            fillList(strings);
+        } else {
+            strings = savedInstanceState.getStringArrayList(listKey);
+        }
+    }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
