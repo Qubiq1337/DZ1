@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class Fragment1 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View rootView =
                 inflater.inflate(R.layout.fragment1, container, false);
-        
+
         final GridLayoutManager layout;
         final RecyclerView recyclerView = rootView.findViewById(R.id.my_list);
         int orientation = getResources().getConfiguration().orientation;
@@ -85,7 +86,7 @@ public class Fragment1 extends Fragment {
         private List<String> mData;
 
 
-        public MyAdapter(List<String> data) {
+        MyAdapter(List<String> data) {
             mData = data;
         }
 
