@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class Fragment2 extends Fragment {
+import static com.example.dz1.Fragment1.COLOR_KEY;
+import static com.example.dz1.Fragment1.INDEX_KEY;
 
-    final static String indexKey = "INDEX";
+
+public class Fragment2 extends Fragment {
 
     @Nullable
     @Override
@@ -21,18 +23,19 @@ public class Fragment2 extends Fragment {
                 inflater.inflate(R.layout.fragment2, container, false);
         Bundle bundle = getArguments();
 
-        int index = 0;
+        int mIndex = 0;
+        char mColor = 'n';
         if (bundle != null) {
-            index = bundle.getInt(indexKey) + 1;
+            mIndex = bundle.getInt(INDEX_KEY);
+            mColor = bundle.getChar(COLOR_KEY);
         }
         final TextView view = rootView.findViewById(R.id.fragment2_text);
-        view.setText(String.valueOf(index));
-        if ((index % 2) == 0) {
+        view.setText(String.valueOf(mIndex));
+        if (mColor == 'r') {
             view.setTextColor(Color.parseColor(getString(R.string.color_red)));
-        } else {
+        } else if (mColor == 'b') {
             view.setTextColor(Color.parseColor(getString(R.string.color_blue)));
         }
         return rootView;
-
     }
 }

@@ -20,9 +20,10 @@ import java.util.List;
 
 public class Fragment1 extends Fragment {
     Button mButton;
-    ArrayList<String> strings;
-    final static String listKey = "LIST_KEY";
-    final static String indexKey = "INDEX";
+    ArrayList<String> mStrings;
+    public final static String LIST_KEY = "LIST_KEY";
+    public final static String INDEX_KEY = "INDEX_KEY";
+    public final static String COLOR_KEY = "COLOR_KEY";
 
     @Nullable
     @Override
@@ -33,14 +34,13 @@ public class Fragment1 extends Fragment {
         final GridLayoutManager layout;
         final RecyclerView recyclerView = rootView.findViewById(R.id.my_list);
         int orientation = getResources().getConfiguration().orientation;
-
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             layout = new GridLayoutManager(getActivity(), 4);
         } else {
             layout = new GridLayoutManager(getActivity(), 3);
         }
         recyclerView.setLayoutManager(layout);
-        recyclerView.setAdapter(new MyAdapter(strings));
+        recyclerView.setAdapter(new MyAdapter(mStrings));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -52,7 +52,7 @@ public class Fragment1 extends Fragment {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addElementToList(strings);
+                addElementToList(mStrings);
                 recyclerView.getAdapter().notifyDataSetChanged();
             }
         });
@@ -62,12 +62,11 @@ public class Fragment1 extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        strings = new ArrayList<>();
-
+        mStrings = new ArrayList<>();
         if (savedInstanceState == null) {
-            fillList(strings);
+            fillList(mStrings);
         } else {
-            strings = savedInstanceState.getStringArrayList(listKey);
+            mStrings = savedInstanceState.getStringArrayList(LIST_KEY);
         }
     }
 
@@ -100,20 +99,25 @@ public class Fragment1 extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull Fragment1.MyViewHolder myViewHolder, final int i) {
-            String str = mData.get(i);
-            if ((i % 2) == 0) {
-                myViewHolder.mTextView.setTextColor(Color.parseColor(getString(R.string.color_blue)));
-            } else {
+            final String str = mData.get(i);
+            final char mCharColor;
+            if ((Integer.valueOf(str) % 2) == 0) {
                 myViewHolder.mTextView.setTextColor(Color.parseColor(getString(R.string.color_red)));
+                mCharColor = 'r';
+            } else {
+                myViewHolder.mTextView.setTextColor(Color.parseColor(getString(R.string.color_blue)));
+                mCharColor = 'b';
             }
+
             myViewHolder.mTextView.setText(str);
             myViewHolder.mTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Fragment2 fragment2 = new Fragment2();
                     Bundle bundle = new Bundle();
-                    bundle.putInt(indexKey, i);
-                    bundle.putStringArrayList(listKey, strings);
+                    bundle.putInt(INDEX_KEY, Integer.valueOf(str));
+                    bundle.putStringArrayList(LIST_KEY, mStrings);
+                    bundle.putChar(COLOR_KEY, mCharColor);
                     fragment2.setArguments(bundle);
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.container, fragment2);
@@ -136,7 +140,7 @@ public class Fragment1 extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putStringArrayList(listKey, strings);
+        outState.putStringArrayList(LIST_KEY, mStrings);
     }
 
     void fillList(List<String> toFill) {
